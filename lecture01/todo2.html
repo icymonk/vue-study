@@ -1,0 +1,93 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+  .done {
+    text-decoration: line-through;
+  }
+</style>
+
+<div id="app">
+  <todo-input @create-todo="onKeypress"></todo-input>
+
+  <!-- <input type="text" v-model="input" @keypress.enter="onKeypress" /> -->
+  <div v-for="(todo, index) in todoList">
+    <input
+      type="text"
+      v-if="todo.isEditing"
+      v-model="todo.text"
+      @keypress.enter="todo.isEditing = false"
+    />
+    <span
+      v-else
+      @dblclick="editTodo(index)"
+      @click="doneTodo(index)"
+      :class="{ done: todo.done }"
+    >
+      {{ todo.text }}
+    </span>
+    <button @click="deleteTodo(index)">DELETE</button>
+  </div>
+</div>
+
+<script>
+  Vue.component("todo-input", {
+    template: `
+      <div>
+        <input :type="type" v-model="input" @keypress.enter="createTodo" />
+      </div>
+    `,
+    props: ["type"],
+    data: function() {
+      return {
+        input: ""
+      };
+    },
+    methods: {
+      createTodo: function() {
+        this.$emit("create-todo", this.input);
+        this.input = "";
+      }
+    },
+    mounted: function() {
+      console.log(this.type, this.props, this.$props);
+    }
+  });
+
+  const app = new Vue({
+    el: "#app",
+    data: function() {
+      return {
+        input: "",
+        todoList: []
+      };
+    },
+    methods: {
+      onKeypress: function(input) {
+        console.log("onkeypress");
+        this.todoList.push({
+          text: input,
+          done: false,
+          isEditing: false
+        });
+      },
+      deleteTodo: function(index) {
+        this.todoList.splice(index, 1);
+      },
+      doneTodo: function(index) {
+        this.todoList[index].done = !this.todoList[index].done;
+      },
+      editTodo: function(index) {
+        this.todoList[index].isEditing = true;
+      }
+    },
+    watch: {
+      input: function(newValue, oldValue) {
+        console.log(newValue, oldValue);
+      }
+    },
+    filters: {
+      upperInput: function(value) {
+        return (value || "").toUpperCase();
+      }
+    }
+  });
+</script>

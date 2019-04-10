@@ -50,6 +50,12 @@ body {
   background: #ddd;
 }
 
+.header {
+  position: fixed;
+  height: 60px;
+  box-shadow: 4px 4px 4px 4px;
+}
+
 .list-item {
   transform: translateY(0);
 }
