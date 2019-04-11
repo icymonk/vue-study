@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="todo.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<div id="app">
+  <h2 style="text-align: center;">TODO APP</h2>
+  <input v-model="input" @keydown.enter="createTodo" autofocus />
+  <transition-group name="list" tag="p">
+    <div
+      v-for="(todo, index) in todoList"
+      :key="todo.id"
+      @click="clickTodo(todo)"
+      :class="todoClass(todo)"
+    >
+      <p>
+        {{ todo.text | toUpperCase }}
+      </p>
+      <button @click.stop="deleteTodo(index)">DELETE</button>
+      <button @click.stop="openModal(todo, index)">EDIT</button>
+    </div>
+  </transition-group>
+  <v-modal
+    :modal-show="modalShow"
+    :edited-todo="editedTodo"
+    @save-todo="saveTodo"
+    @toggle-modal="toggleModal"
+  ></v-modal>
+</div>
+
+<script src="todo.js"></script>
