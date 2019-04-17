@@ -1,0 +1,71 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+  .v-button {
+    background: none;
+    padding: 16px 40px;
+    border-radius: 8px;
+  }
+  .v-button:focus {
+    outline: none;
+  }
+  .v-button.red {
+    background: red;
+    color: white;
+  }
+</style>
+
+<div id="app">
+  <v-button :text="message" @click="changeMessage" red></v-button>
+  <v-button></v-button>
+  <v-button text="버튼3"></v-button>
+  <v-button v-for="i in [1,2,3]" :text="`버튼${i}`"></v-button>
+</div>
+
+<script>
+  Vue.component("v-button", {
+    template: `
+      <button :class="{ 'v-button': true, red }" @click="$emit('click')">
+        {{ text }}
+      </button>
+    `,
+    // props: ["text", "red"],
+    // props: {
+    //   text: String,
+    //   red: Boolean,
+    // },
+    props: {
+      text: {
+        type: String,
+        default: "버튼"
+      },
+      red: {
+        type: Boolean,
+        default: false
+      }
+    },
+    // data() {
+    //   return {
+    //     text: "hi"
+    //   };
+    // },
+    methods: {
+      click() {
+        this.$emit("click", "button", 1);
+      }
+    }
+  });
+
+  new Vue({
+    el: "#app",
+    data() {
+      return {
+        message: "hi"
+      };
+    },
+    methods: {
+      changeMessage(data, data2) {
+        this.message = this.message == "hi" ? data : "hi";
+      }
+    }
+  });
+</script>
