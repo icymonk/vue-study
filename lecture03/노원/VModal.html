@@ -1,0 +1,59 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<style></style>
+
+<div id="app">
+  <button @click="toggleModal">모달</button>
+  <v-modal v-show="modal" @click="toggleModal">
+    <!-- <div slot="header">TITLE</div> -->
+    CONTENT
+    <div slot="footer">
+      <button>확인</button>
+    </div>
+  </v-modal>
+</div>
+
+<script>
+  Vue.component("v-modal", {
+    template: `
+      <div class="modal-cover" @click="$emit('click')">
+        <div class="modal" @click.stop>
+          <div class="modal-header">
+            {{ title }}
+            <slot name="header"></slot>
+          </div>
+          <slot></slot>
+          <div class="modal-footer">
+            <slot name="footer"></slot>
+          </div>
+        </div>
+      </div>
+    `,
+    // props: ["title"],
+    // props: {
+    //   title: String
+    // },
+    props: {
+      title: {
+        type: String,
+        default: "Modal title"
+      }
+    }
+  });
+
+  new Vue({
+    el: "#app",
+    data() {
+      return {
+        modal: false,
+        modalTitle: "모달 제목"
+      };
+    },
+    methods: {
+      toggleModal() {
+        this.modal = !this.modal;
+        this.modalTitle = "모달 제목2";
+      }
+    }
+  });
+</script>
