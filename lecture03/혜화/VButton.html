@@ -24,7 +24,7 @@
 <script>
   Vue.component("v-button", {
     template: `
-      <button :class="{ 'v-button': true, red }" @click="$emit('click')">
+      <button :class="{ 'v-button': true, red }" @click="$emit('click', 'button')">
         {{ text }}
       </button>
     `,
@@ -50,7 +50,7 @@
     // },
     methods: {
       click() {
-        this.$emit("click", "button", 1);
+        this.$emit("click", "button");
       }
     }
   });
@@ -63,7 +63,8 @@
       };
     },
     methods: {
-      changeMessage(data, data2) {
+      changeMessage(data) {
+        console.log(data);
         this.message = this.message == "hi" ? data : "hi";
       }
     }
