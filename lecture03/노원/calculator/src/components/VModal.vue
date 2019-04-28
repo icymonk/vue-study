@@ -18,10 +18,10 @@ export default {
   props: {
     title: {
       type: String,
-      default: "Modal title"
-    }
-  }
-};
+      default: "Modal title",
+    },
+  },
+}
 </script>
 
 <style lang="less" scoped>
